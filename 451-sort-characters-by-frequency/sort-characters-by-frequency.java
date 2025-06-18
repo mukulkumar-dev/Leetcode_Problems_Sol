@@ -1,22 +1,22 @@
+import java.util.*;
 class Solution {
     public String frequencySort(String s) {
-        Map<Character, Integer> hm = new HashMap<>();
-        
+        Map<Character, Integer> map = new HashMap<>();
         for (char c : s.toCharArray()) {
-            hm.put(c, hm.getOrDefault(c, 0) + 1);
+            map.put(c, map.getOrDefault(c, 0) + 1);
         }
-        
-        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>(
-            (a, b) -> b.getValue() - a.getValue()
-        );
-        
-        pq.addAll(hm.entrySet());
+        PriorityQueue<Character> pq = new PriorityQueue<>((a, b) -> map.get(b) - map.get(a));
+        for (Character c : map.keySet()) {
+            pq.offer(c);
+        }
         StringBuilder result = new StringBuilder();
         while (!pq.isEmpty()) {
-            Map.Entry<Character, Integer> entry = pq.poll();
-            result.append(String.valueOf(entry.getKey()).repeat(entry.getValue()));
+            char c = pq.poll();
+            int freq = map.get(c);
+            for (int i = 0; i < freq; i++) {
+                result.append(c);
+            }
         }
         return result.toString();
     }
 }
-
