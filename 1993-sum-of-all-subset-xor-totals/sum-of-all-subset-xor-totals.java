@@ -4,6 +4,6 @@ class Solution {
         for (int num : nums) {
             total |= num;  
         }
-        return total * (1 << (nums.length - 1));
+        return total << (nums.length - 1);
     }
 }
