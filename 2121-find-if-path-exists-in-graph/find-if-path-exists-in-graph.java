@@ -9,16 +9,16 @@ class Solution {
             list.get(num[1]).add(num[0]);
         }
         boolean[] visit=new boolean[n];
-        Queue<Integer> q=new LinkedList<>();
-        q.offer(source);
-        visit[source]=true;
-        while(!q.isEmpty()){
-            int curr=q.poll();
-            if(curr==destination) return true;
-            for(int neighbour: list.get(curr)){
-                if(!visit[neighbour]){
-                    visit[neighbour]=true;
-                    q.offer(neighbour);
+        return dfs(list, visit, source, destination);
+       
+    }
+    private boolean dfs(List<List<Integer>> graph, boolean[] visited, int current, int destination) {
+        if (current == destination) return true;
+        visited[current] = true;
+        for (int neighbor : graph.get(current)) {
+            if (!visited[neighbor]) {
+                if (dfs(graph, visited, neighbor, destination)) {
+                    return true;
                 }
             }
         }
