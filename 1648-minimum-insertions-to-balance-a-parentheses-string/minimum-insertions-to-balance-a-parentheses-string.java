@@ -1,35 +1,30 @@
 class Solution {
     public int minInsertions(String s) {
-         int insertions = 0; 
-        int open = 0;     
-
-        int i = 0;
-        while (i < s.length()) {
-            char c = s.charAt(i);
-
-            if (c == '(') {
-                open++;
-                i++;
-            } else { // c == ')'
-                if (i + 1 < s.length() && s.charAt(i + 1) == ')') {
-                    if (open > 0) {
-                        open--; 
-                    } else {
-                        insertions++; 
-                    }
-                    i += 2; 
+        int temp = 0, res = 0;
+        boolean need = false;
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') {
+                if (need) {
+                    res++;
+                    need = false;
+                }
+                temp++;
+            } else {
+                if (need) {
+                    need = false;
                 } else {
-                    if (open > 0) {
-                        open--; 
-                        insertions++;
-                    } else {
-                        insertions += 2;
+                    if (temp == 0) {
+                        temp++;
+                        res++;
                     }
-                    i++;
+                    temp--;
+                    need = true;
                 }
             }
         }
-        insertions += open * 2;
-        return insertions;
+        if (need)
+            res++;
+        res += temp * 2;
+        return res;
     }
 }
